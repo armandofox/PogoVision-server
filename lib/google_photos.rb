@@ -1,0 +1,3 @@
+class GooglePhotos < ScrollingPhotoSet
+
+end
