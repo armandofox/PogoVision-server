@@ -4,7 +4,6 @@ ruby '2.3.1'
 
 gem 'sinatra'
 gem 'haml'
-gem 'json'
 gem 'httparty'
 gem 'activesupport'            # for Hash.from_xml constructor method
 

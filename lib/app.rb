@@ -3,7 +3,7 @@ require 'bundler'
 Bundler.require
 
 require 'sinatra/base'
-require 'byebug'
+# require 'byebug'
 require 'uri'
 require 'figaro'
 require 'json'
