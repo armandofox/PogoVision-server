@@ -6,19 +6,21 @@ require 'sinatra/base'
 require 'byebug'
 require 'uri'
 require 'figaro'
+require 'json'
 
 require_relative 'photo'
 require_relative 'scrolling_photo_set'
-require_relative 'google_photos'
-
+require_relative 'google_photo_set'
+require_relative 'test_photo_set'
 
 class ScrollingPixServer < Sinatra::Application
   get '/' do
-    puts Figaro.env.example!
     # how many photo records to return?
     num_photos = (params[:n] || '100').to_i
+    provider = ((params[:p] || 'test') + "_photo_set").classify.constantize
+    response = provider.send(:new).populate(num_photos)
     content_type :json
-    ScrollingPhotoSet.new(GooglePhotos).populate(n).to_json
+    response.to_json
   end
 end
 

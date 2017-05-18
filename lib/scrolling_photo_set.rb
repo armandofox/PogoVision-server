@@ -6,16 +6,30 @@ class ScrollingPhotoSet
   # The goal is to provide a data structure that spoon-feeds the Roku SceneGraph XML
   # the necessary information to both fetch and 'animate' a set of photos.
 
-  attr_accessor :provider, :error_message, :photos
+  attr_accessor :error_message, :photos
 
-  def initialize(provider)
-    @provider = provider
+  def initialize
     @error_message = nil
     @photos = []
   end
 
-  def self.populate(n)
-    @photos = provider.fetch(n) # returns array of n instances of ScrollingPhoto
+  def get(uri)
+    begin
+      response = HTTParty.get(uri, :verify => false)
+      if response.success?
+        response.body
+      else
+        @error_message = "#{response.code} - #{response.message}"
+        nil
+      end
+    rescue HTTParty::Error => e
+      @error_message = e.message
+      nil
+    end
+  end
+  
+  def populate(n)
+    @photos = fetch(n) # returns array of n instances of ScrollingPhoto
     @photos.each do |photo|
       photo.scale!
       photo.set_animation!

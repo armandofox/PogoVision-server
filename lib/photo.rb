@@ -15,6 +15,12 @@ class Photo
     @animation_vector_key_value = nil
   end
 
+  def to_json(*args, &block)
+    {:uri => @uri, :height => @height, :width => @width,
+      :animation_vector_key => @animation_vector_Key,
+      :animation_vector_key_value => @animation_vector_key_value }.to_json(*args,&block)
+  end
+
   def animated? ; !!@animation_vector_key_value ; end
 
   # Scale the photo to between `MIN_PHOTO_WIDTH` and `MAX_PHOTO_WIDTH`, but never taller

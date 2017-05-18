@@ -4,7 +4,9 @@ ruby '2.3.1'
 
 gem 'sinatra'
 gem 'haml'
-gem 'sinatra_autoload'
+gem 'json'
+gem 'httparty'
+gem 'activesupport'            # for Hash.from_xml constructor method
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
