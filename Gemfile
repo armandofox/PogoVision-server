@@ -6,11 +6,11 @@ gem 'sinatra'
 gem 'haml'
 gem 'httparty'
 gem 'activesupport'            # for Hash.from_xml constructor method
+gem 'figaro'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'figaro'
   gem 'rerun'
   gem 'rspec-sinatra'
   gem 'rspec'
