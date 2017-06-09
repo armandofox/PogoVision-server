@@ -3,8 +3,8 @@ class Photo
   # Assuming 1920 x 1080 resolution (1080p)
   SCREEN_WIDTH = 1920
   SCREEN_HEIGHT = 1080
-  MIN_PHOTO_WIDTH = 320
-  MAX_PHOTO_WIDTH = 1200
+  MIN_PHOTO_WIDTH = 100
+  MAX_PHOTO_WIDTH = 1000
 
   # Range of animation durations (seconds)
   FASTEST_ANIMATION = 4

@@ -1,10 +1,15 @@
 class GooglePhotoSet < ScrollingPhotoSet
+  require 'byebug'
   
   BASE_URI = 'https://picasaweb.google.com/data/feed/api/user'
   require 'active_support/core_ext/hash'
 
   def fetch(n=100)
     # get at least n random photos
+    @album_list = get_album_uris
+    first = @album_list.first
+    photos = get_photos_from_album(first)
+    photos[0,n].shuffle!
   end
 
   protected
@@ -15,7 +20,7 @@ class GooglePhotoSet < ScrollingPhotoSet
     # metadata from that album
     h = Hash.from_xml(body)
     h['feed']['entry'].map do |entry|
-      entry['id'].strip
+      entry['id'].first.strip
     end
   end
 
@@ -28,9 +33,15 @@ class GooglePhotoSet < ScrollingPhotoSet
     #     <media:title>Photo Title</media:title>
     #   </media:group>
     # </entry>
-    return [] unless (body = get "#{BASE_URI}/#{album_uri}?prettyprint=true")
+
+    # The provided album_uri is usually of type 'entry' but must be of type 'feed' in
+    # order to get photo metadata, so we replace that component of the URI:
+    album_uri.gsub!( /\bentry\b/, 'feed' )
+    return [] unless (body = get "#{album_uri}?prettyprint=true")
     h = Hash.from_xml(body)
-    h['feed']['entry'].map do |entry|
+    byebug
+    photos = 
+      h['feed']['entry'].map do |entry|
       if (entry['content']['type'] rescue nil) =~ /jpe?g$/i
         Photo.new(:uri => entry['content']['src'].strip,
           :height => entry['height'].to_i, :width => entry['width'].to_i)
@@ -38,6 +49,7 @@ class GooglePhotoSet < ScrollingPhotoSet
         nil
       end
     end.compact
+    photos
   end
 
 end
