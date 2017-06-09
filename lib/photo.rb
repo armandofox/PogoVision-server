@@ -15,7 +15,7 @@ class Photo
 
   def initialize(args={})
     @uri,@height,@width = args.values_at(:uri,:height,:width)
-    @animation_vector_key = "[0.0, 1.0]"
+    @animation_vector_key = [0.0, 1.0]
     @animation_vector_key_value = nil
     @translation = nil
   end
@@ -55,18 +55,18 @@ class Photo
   # (x,y) coordinates corresponding to where the animation should be at each such point in
   # time using linear interpolation (other interpolators are available, but simplicity).
   # For a simple 1-segment trajectory of a photo rising from the bottom of the screen
-  # to the top, `key` is always the string `"[0.0, 1.0]"` and `keyValue`is
-  # `"[[X,screenHeight], [X,-photo_height]]"` where `photo_height` is the photo's height (so
+  # to the top, `key` is always the array `[0.0, 1.0]` and `keyValue` is the nested array
+  # `[[X,screenHeight], [X,-photo_height]]` where `photo_height` is the photo's height (so
   # it scrolls ALL THE WAY off the screen) and `X` is the chosen x-offset for the animation.
   #
   
   def set_animation!
     # range of X offset is 0 to (screen width - photo width)
     x_offset = (rand() * (SCREEN_WIDTH - width)).round
+    @translation = [ x_offset, SCREEN_HEIGHT ]
     @animation_vector_key_value = [
       [ x_offset,SCREEN_HEIGHT ], [x_offset, -height]
     ]
-    @translation = [ x_offset, SCREEN_HEIGHT ]
     # duration
     @duration = (rand() * (SLOWEST_ANIMATION - FASTEST_ANIMATION)).round + FASTEST_ANIMATION
     self
