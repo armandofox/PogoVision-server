@@ -8,7 +8,7 @@ class Photo
 
   # Range of animation durations (seconds)
   FASTEST_ANIMATION = 4
-  SLOWEST_ANIMATION = 20
+  SLOWEST_ANIMATION = 15
 
   attr_accessor :uri, :height, :width, :duration
   attr_accessor :animation_vector_key, :animation_vector_key_value, :translation
@@ -67,7 +67,7 @@ class Photo
       sprintf "[[%d, %d], [%d, %d]]", x_offset, SCREEN_HEIGHT, x_offset, -height
     @translation = sprintf "[%d, %d]", x_offset, SCREEN_HEIGHT
     # duration
-    @duration = (rand() * (SLOWEST_ANIMATION - FASTEST_ANIMATION)).round + SLOWEST_ANIMATION
+    @duration = (rand() * (SLOWEST_ANIMATION - FASTEST_ANIMATION)).round + FASTEST_ANIMATION
     self
   end
 end
