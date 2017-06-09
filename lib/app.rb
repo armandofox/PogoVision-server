@@ -17,7 +17,8 @@ class ScrollingPixServer < Sinatra::Application
   get '/' do
     # how many photo records to return?
     num_photos = (params[:n] || '100').to_i
-    provider = ((params[:p] || 'test') + "_photo_set").classify.constantize
+    #provider = ((params[:p] || 'test') + "_photo_set").classify.constantize
+    provider = ((params[:p] || 'google') + "_photo_set").classify.constantize
     response = provider.send(:new).populate(num_photos)
     content_type :json
     response.to_json
