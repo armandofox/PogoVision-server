@@ -1,5 +1,4 @@
 class GooglePhotoSet < ScrollingPhotoSet
-  require 'byebug'
   
   BASE_URI = 'https://picasaweb.google.com/data/feed/api/user'
   require 'active_support/core_ext/hash'
