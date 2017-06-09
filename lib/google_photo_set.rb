@@ -38,7 +38,6 @@ class GooglePhotoSet < ScrollingPhotoSet
     album_uri.gsub!( /\bentry\b/, 'feed' )
     return [] unless (body = get "#{album_uri}?prettyprint=true")
     h = Hash.from_xml(body)
-    byebug
     photos = 
       h['feed']['entry'].map do |entry|
       if (entry['content']['type'] rescue nil) =~ /jpe?g$/i
