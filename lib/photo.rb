@@ -1,10 +1,14 @@
 class Photo
 
-  # Assuming 1920 x 1080 resolution (1080p)
-  SCREEN_WIDTH = 1920
-  SCREEN_HEIGHT = 1080
+  # Assuming 1080p TV
+  SCREEN_WIDTH = 1280
+  SCREEN_HEIGHT = 720
+
+  # Desired min/max width and height of displayed photos
   MIN_PHOTO_WIDTH = 100
   MAX_PHOTO_WIDTH = 1000
+  MIN_PHOTO_HEIGHT = 100
+  MAX_PHOTO_HEIGHT = 800
 
   # Range of animation durations (seconds)
   FASTEST_ANIMATION = 4
@@ -33,8 +37,11 @@ class Photo
   # than `MAX_PHOTO_HEIGHT`
   def scale!
     widthf = width.to_f
-    min_scale_factor = MIN_PHOTO_WIDTH/widthf
-    max_scale_factor = MAX_PHOTO_WIDTH/widthf
+    heightf = height.to_f
+    # range of allowable scales is constrained by min/max desired width & height
+    min_scale_factor = [MIN_PHOTO_WIDTH/widthf, MIN_PHOTO_HEIGHT/heightf].max
+    max_scale_factor = [MAX_PHOTO_WIDTH/widthf, MAX_PHOTO_HEIGHT/heightf].min
+    # choose a scale somewhere in that range
     scale_factor = min_scale_factor + rand() * (max_scale_factor - min_scale_factor)
     @height = (@height * scale_factor).round
     @width =  (@width * scale_factor).round
