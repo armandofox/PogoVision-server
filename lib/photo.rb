@@ -23,7 +23,7 @@ class Photo
   def to_json(*args, &block)
     {:uri => @uri, :height => @height, :width => @width,
       :duration => @duration, :translation => translation,
-      :animation_vector_key => @animation_vector_Key,
+      :animation_vector_key => @animation_vector_key,
       :animation_vector_key_value => @animation_vector_key_value }.to_json(*args,&block)
   end
 
@@ -63,9 +63,10 @@ class Photo
   def set_animation!
     # range of X offset is 0 to (screen width - photo width)
     x_offset = (rand() * (SCREEN_WIDTH - width)).round
-    @animation_vector_key_value =
-      sprintf "[[%d, %d], [%d, %d]]", x_offset, SCREEN_HEIGHT, x_offset, -height
-    @translation = sprintf "[%d, %d]", x_offset, SCREEN_HEIGHT
+    @animation_vector_key_value = [
+      [ x_offset,SCREEN_HEIGHT ], [x_offset, -height]
+    ]
+    @translation = [ x_offset, SCREEN_HEIGHT ]
     # duration
     @duration = (rand() * (SLOWEST_ANIMATION - FASTEST_ANIMATION)).round + FASTEST_ANIMATION
     self
